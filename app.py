@@ -68,7 +68,7 @@ if df.empty:
     st.stop()
 
 # --- 3. Conference Presentation Layout (Updated for Soil Moisture Focus) ---
-tab1, tab2, tab3 = st.tabs(["📊 Executive Summary", "🧊 Subsurface Thermal Analysis", "🗄️ Dataset & Export"])
+tab1, tab2, tab3 = st.tabs(["Meterological Parameters", "3D Visualization", "Sensor Data and Export"])
 
 with tab1:
     st.subheader("High-Level Performance Metrics")
@@ -109,7 +109,7 @@ with tab2:
         color='soil_moisture_0_to_7cm', # Color gradient tracks moisture depth
         size_max=10,
         opacity=0.8,
-        color_continuous_scale=px.colors.sequential.Deep, # 'Deep' blue scale fits moisture theme
+        color_continuous_scale=px.colors.sequential.deep, # 'Deep' blue scale fits moisture theme
         labels={
             'temperature_2m': 'Temp (°F)',
             'humidity': 'Humidity (%)',
