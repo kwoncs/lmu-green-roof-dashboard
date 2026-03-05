@@ -71,11 +71,11 @@ if df.empty:
 tab1, tab2, tab3 = st.tabs(["Meterological Parameters", "3D Visualization", "Sensor Data and Export"])
 
 with tab1:
-    st.subheader("High-Level Performance Metrics")
+    st.subheader("High-Level Data Insights")
     col1, col2, col3, col4 = st.columns(4)
     # Replaced Max PM2.5 with Max Soil Moisture
     col1.metric("Max Soil Moisture", f"{df['soil_moisture_0_to_7cm'].max():.3f}")
-    col2.metric("Avg Temperature (°F)", f"{df['temperature_2m'].mean():.1f}")
+    col2.metric("Avg Temperature 2m (°C)", f"{df['temperature_2m'].mean():.1f}")
     col3.metric("Total Precipitation (mm)", f"{df['precipitation'].sum():.1f}")
     col4.metric("Mean Soil Moisture", f"{df['soil_moisture_0_to_7cm'].mean():.3f}")
 
