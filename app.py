@@ -89,7 +89,7 @@ with tab1:
     fig_dual.add_trace(go.Bar(x=df.index, y=df['soil_moisture_0_to_7cm'], name="Soil Moisture (m³/m³)", marker_color="#00CC96", opacity=0.5), secondary_y=True)
     
     fig_dual.update_layout(title_text="Timeline: Regional Temperature vs. Native Soil Moisture", hovermode="x unified")
-    fig_dual.update_yaxes(title_text="Temperature (°F)", secondary_y=False)
+    fig_dual.update_yaxes(title_text="Temperature (°C)", secondary_y=False)
     fig_dual.update_yaxes(title_text="Volumetric Water Content", secondary_y=True)
     st.plotly_chart(fig_dual, use_container_width=True)
 
@@ -141,3 +141,36 @@ with tab3:
         file_name="lmu_california_meadow_baseline.csv",
         mime="text/csv",
     )
+
+with tab4:
+    st.header("📍 Phase 2: Comparative Field Research")
+    
+    col_left, col_right = st.columns([1, 1])
+    
+    with col_left:
+        st.subheader("Objective")
+        st.markdown("""
+        **Quantify thermal performance deltas** between:
+        * **Experimental:** Life Sciences Building (Green Roof) 
+        * **Control:** Seaver Science Hall (Cool Roof) 
+        """)
+        
+        st.subheader("Sensor Deployment")
+        st.info("**Inventory Ready:** 10+ Thermal Loggers, 6 Soil Moisture Sensors [cite: 35, 41, 45]")
+        st.markdown("""
+        * **Vertical Gradients:** Surface, 5cm, and 10cm depths [cite: 88, 89]
+        * **Internal Impact:** Ceiling-space monitors for insulation benefit [cite: 93]
+        * **Ground-Truthing:** Validating regional models against physical local data
+        """)
+
+    with col_right:
+        st.subheader("Statistical Outcomes")
+        st.success("Targeting 6-weeks of 15-minute continuous monitoring [cite: 112]")
+        st.markdown("""
+        1.  **Thermal Diffusivity:** Modeling heat transfer through substrate layers.
+        2.  **Vegetation Performance:** Comparing Meadow vs. Succulent cooling[cite: 25].
+        3.  **Hydrological Coupling:** Impact of moisture on evaporative cooling[cite: 101].
+        """)
+        
+    st.divider()
+    st.caption("Next Steps: Sensor calibration and final site-mapping for Q2 deployment[cite: 57, 68].")
