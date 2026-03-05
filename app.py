@@ -68,7 +68,7 @@ if df.empty:
     st.stop()
 
 # --- 3. Conference Presentation Layout (Updated for Soil Moisture Focus) ---
-tab1, tab2, tab3 = st.tabs(["Meterological Parameters", "3D Visualization", "Sensor Data and Export"])
+tab1, tab2, tab3, tab4 = st.tabs(["Meterological Parameters", "3D Visualization", "Sensor Data and Export", "Research Design"])
 
 with tab1:
     st.subheader("High-Level Data Insights")
@@ -143,34 +143,38 @@ with tab3:
     )
 
 with tab4:
-    st.header("📍 Phase 2: Comparative Field Research")
+    st.header("Field Research Summary")
     
-    col_left, col_right = st.columns([1, 1])
+    # 40% width for left, 60% width for right
+    col_left, col_right = st.columns([2, 3]) 
     
     with col_left:
-        st.subheader("Objective")
-        st.markdown("""
-        **Quantify thermal performance deltas** between:
-        * **Experimental:** Life Sciences Building (Green Roof) 
-        * **Control:** Seaver Science Hall (Cool Roof) 
-        """)
+        st.subheader("The Research Question")
+        st.info("In comparison to cool roofs, can commercial and public green roofs provide equivalent or more cost-effective environmental benefits in Los Angeles?")
         
-        st.subheader("Sensor Deployment")
-        st.info("**Inventory Ready:** 10+ Thermal Loggers, 6 Soil Moisture Sensors [cite: 35, 41, 45]")
         st.markdown("""
-        * **Vertical Gradients:** Surface, 5cm, and 10cm depths [cite: 88, 89]
-        * **Internal Impact:** Ceiling-space monitors for insulation benefit [cite: 93]
-        * **Ground-Truthing:** Validating regional models against physical local data
+        **Core Objectives:**
+        * **Environmental Impact:** Do green roofs provide superior cooling benefits compared to traditional cool roofs?
+        * **Scalability:** Are green roofs like LMU's viable at scale across Los Angeles?
+        * **Cost-Benefit Analysis:** Is the initial investment and subsequent maintenance costs justified by the environmental and energy savings?
         """)
 
     with col_right:
-        st.subheader("Statistical Outcomes")
-        st.success("Targeting 6-weeks of 15-minute continuous monitoring [cite: 112]")
+        st.subheader("Anticipated Research Outcomes")
+        st.success("Targeting 8 weeks of 15-minute continuous monitoring :)")
+        
+        # HTML block to slightly increase font size and add spacing
         st.markdown("""
-        1.  **Thermal Diffusivity:** Modeling heat transfer through substrate layers.
-        2.  **Vegetation Performance:** Comparing Meadow vs. Succulent cooling[cite: 25].
-        3.  **Hydrological Coupling:** Impact of moisture on evaporative cooling[cite: 101].
-        """)
+        <div style="font-size: 1.15rem; line-height: 1.6;">
+            <ol>
+                <li><b>Thermal Conductivity:</b> Place sensors at various soil depths to quantify/model 1D transient heat transfer through the green roof substrate. (Tang et al. 2019)</li>
+                <br>
+                <li><b>Water Balance:</b> Correlate rainfall data with soil moisture to determine water storage and evapotranspiration provided by roof (Liu et al. 2021).</li>
+                <br>
+                <li><b>QUANTIFIED ENV. BENEFITS:</b> Use estimates from 1. and 2. to quantify the environmental benefits of green roofs -- energy savings, reduced urban heat island effect, runoff protection, and more!</li>
+            </ol>
+        </div>
+        """, unsafe_allow_html=True)
         
     st.divider()
-    st.caption("Next Steps: Sensor calibration and final site-mapping for Q2 deployment[cite: 57, 68].")
+    st.caption("Next Steps: Finalize sensor housings and placement.")
