@@ -34,8 +34,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🌱 LMU Green Roof: Basline parameters")
-st.markdown("Data acquired from Open-Meteo and Purple Air APIs")
+st.title("LMU Green Roof: Baseline parameters")
+st.markdown("Data acquired from Open-Meteo (ECMWF) and Purple Air APIs")
 
 # --- 2. Data Pipeline ---
 API_KEY = "7B8D10F8-1755-11F1-B596-4201AC1DC123"
