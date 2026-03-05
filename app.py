@@ -33,8 +33,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🌱 LMU California Meadow: Air Quality & Building Microclimate")
-st.markdown("Evaluating the impact of engineered green roofs on localized particulate matter and temperature buffering.")
+st.title("🌱 LMU Green Roof: Basline parameters")
+st.markdown("Data acquired from Open-Meteo and Purple Air APIs")
 
 # --- 2. Data Pipeline ---
 API_KEY = "7B8D10F8-1755-11F1-B596-4201AC1DC123"
@@ -66,56 +66,56 @@ if df.empty:
     st.error("Data aggregation failed. Verify network connection and API limits.")
     st.stop()
 
-# --- 3. Conference Presentation Layout (Tabs) ---
-tab1, tab2, tab3 = st.tabs(["📊 Executive Summary", "🧊 3D Microclimate Analysis", "🗄️ Dataset & Export"])
+# --- 3. Conference Presentation Layout (Updated for Soil Moisture Focus) ---
+tab1, tab2, tab3 = st.tabs(["📊 Executive Summary", "🧊 Subsurface Thermal Analysis", "🗄️ Dataset & Export"])
 
 with tab1:
     st.subheader("High-Level Performance Metrics")
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Max PM2.5 (µg/m³)", f"{df['pm2.5_atm'].max():.1f}")
+    # Replaced Max PM2.5 with Max Soil Moisture
+    col1.metric("Max Soil Moisture", f"{df['soil_moisture_0_to_7cm'].max():.3f}")
     col2.metric("Avg Temperature (°F)", f"{df['temperature_2m'].mean():.1f}")
     col3.metric("Total Precipitation (mm)", f"{df['precipitation'].sum():.1f}")
     col4.metric("Mean Soil Moisture", f"{df['soil_moisture_0_to_7cm'].mean():.3f}")
 
     st.divider()
     
-    # Dual-Axis Chart for Temperature vs Particulate Matter
-    import plotly.graph_objects as go
-    from plotly.subplots import make_subplots
-
+    # Dual-Axis Chart: Temperature vs. Soil Moisture
     fig_dual = make_subplots(specs=[[{"secondary_y": True}]])
+    # Baseline Temperature
     fig_dual.add_trace(go.Scatter(x=df.index, y=df['temperature_2m'], name="Baseline Temp (°F)", line=dict(color="#FF5733")), secondary_y=False)
-    fig_dual.add_trace(go.Bar(x=df.index, y=df['pm2.5_atm'], name="PM2.5 (µg/m³)", marker_color="#33C1FF", opacity=0.5), secondary_y=True)
+    # Soil Moisture (Bar)
+    fig_dual.add_trace(go.Bar(x=df.index, y=df['soil_moisture_0_to_7cm'], name="Soil Moisture (m³/m³)", marker_color="#00CC96", opacity=0.5), secondary_y=True)
     
-    fig_dual.update_layout(title_text="Timeline: Temperature vs. Airborne Particulates", hovermode="x unified")
+    fig_dual.update_layout(title_text="Timeline: Regional Temperature vs. Native Soil Moisture", hovermode="x unified")
     fig_dual.update_yaxes(title_text="Temperature (°F)", secondary_y=False)
-    fig_dual.update_yaxes(title_text="PM2.5 Concentration", secondary_y=True)
+    fig_dual.update_yaxes(title_text="Volumetric Water Content", secondary_y=True)
     st.plotly_chart(fig_dual, use_container_width=True)
 
 with tab2:
-    st.subheader("Multidimensional Variable Interactions")
-    st.markdown("Rotate and zoom the 3D space to identify clusters where high temperatures correlate with specific humidity and particulate profiles.")
+    st.subheader("Subsurface Variable Interactions")
+    st.markdown("This 3D space visualizes the relationship between regional temperature, humidity, and native soil moisture baselines.")
     
-    # Clean NaNs specifically for 3D plotting to prevent WebGL rendering errors
-    plot_df = df.dropna(subset=['temperature_2m', 'humidity', 'pm2.5_atm', 'soil_moisture_0_to_7cm'])
+    # Clean NaNs specifically for 3D plotting
+    plot_df = df.dropna(subset=['temperature_2m', 'humidity', 'soil_moisture_0_to_7cm', 'pm2.5_atm'])
     
-    # 3D Interactive Scatter Plot
+    # 3D Interactive Scatter Plot: SWAPPED Z-AXIS TO SOIL MOISTURE
     fig_3d = px.scatter_3d(
         plot_df,
         x='temperature_2m',
         y='humidity',
-        z='pm2.5_atm',
-        color='soil_moisture_0_to_7cm',
+        z='soil_moisture_0_to_7cm', # Swapped from pm2.5_atm
+        color='soil_moisture_0_to_7cm', # Color gradient tracks moisture depth
         size_max=10,
         opacity=0.8,
-        color_continuous_scale=px.colors.sequential.Viridis,
+        color_continuous_scale=px.colors.sequential.Deep, # 'Deep' blue scale fits moisture theme
         labels={
             'temperature_2m': 'Temp (°F)',
             'humidity': 'Humidity (%)',
-            'pm2.5_atm': 'PM2.5',
-            'soil_moisture_0_to_7cm': 'Soil Moisture'
+            'soil_moisture_0_to_7cm': 'Soil Moisture',
+            'pm2.5_atm': 'PM2.5'
         },
-        title="3D Microclimate Correlation Matrix"
+        title="3D Soil-Climate Correlation Matrix"
     )
     
     fig_3d.update_layout(
@@ -123,12 +123,12 @@ with tab2:
             xaxis=dict(backgroundcolor="black", gridcolor="gray"),
             yaxis=dict(backgroundcolor="black", gridcolor="gray"),
             zaxis=dict(backgroundcolor="black", gridcolor="gray"),
-            camera=dict(eye=dict(x=1.5, y=1.5, z=1.2)) # Sets optimal default viewing angle
+            camera=dict(eye=dict(x=1.5, y=1.5, z=1.2))
         ),
         margin=dict(l=0, r=0, b=0, t=40)
     )
     st.plotly_chart(fig_3d, use_container_width=True, height=700)
-
+    
 with tab3:
     st.subheader("Merged Baseline Data")
     st.dataframe(df, use_container_width=True)
